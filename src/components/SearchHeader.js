@@ -36,9 +36,6 @@ const SearchHeader = ({ setSearch, search }) => {
     fetchData();
   }, [debouncedSearch, dispatch]);
 
-  const subHandler = () => {
-    console.log("salam");
-  };
   const itemSelect = (name) => {
     setSearch(name);
     setIsList(false);
