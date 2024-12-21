@@ -11,6 +11,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import LockIcon from "@mui/icons-material/Lock";
 import SearchHeader from "./SearchHeader";
+import "../css/HeaderComponent.css";
 
 const { Header } = Layout;
 
@@ -160,8 +161,8 @@ const HeaderComponent = () => {
           </Col>
         </Row>
       </Header>
-      <div style={{ padding: "10px 300px 10px", backgroundColor: "#ffffff" }}>
-        <Menu mode="horizontal" defaultSelectedKeys={["home"]}>
+      <div style={{ padding: "10px 300px 10px", backgroundColor: "#ffffff"}}>
+        <Menu mode="horizontal" defaultSelectedKeys={["home"]} className="custom-menu">
           <Menu.Item key="home">Home</Menu.Item>
           <Menu.Item key="hotdeals">Hot Deals</Menu.Item>
           <Menu.Item key="categories">Categories</Menu.Item>

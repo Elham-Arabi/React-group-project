@@ -1,0 +1,19 @@
+.custom-menu .ant-menu-item {
+    color: #000; 
+    font-weight: 500; 
+    transition: color 0.3s ease;
+  }
+  
+  .custom-menu .ant-menu-item-selected {
+    color: #d31837 !important; 
+  }
+  
+  .custom-menu .ant-menu-item:hover {
+    transition: border 0.3s ease;
+    color: #d31837 !important; 
+  }
+  
+  .custom-menu .ant-menu-item-selected::after {
+    border-bottom: 2px solid #d31837; 
+    color: #d31837 !important;
+  }

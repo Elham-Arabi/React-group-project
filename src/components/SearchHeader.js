@@ -68,16 +68,17 @@ const SearchHeader = ({ setSearch, search }) => {
         notices.length > 0 &&
         isList && (
           <List
-            bordered
-            size="small"
-            style={{
-              position: "absolute",
-              zIndex: 1000,
-              background: "#fff",
-              width: "100%",
-              marginTop: "4px",
-              borderRadius: "4px",
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+          bordered
+          size="small"
+          style={{
+            position: "absolute",
+            zIndex: 1000,
+            background: "#fff",
+            width: "100%",
+            marginTop: "4px",
+            borderRadius: "4px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // سایه برای زیبایی
+            overflowY: "auto",
             }}
             dataSource={notices.filter((item) =>
               item.name.toLowerCase().includes(debouncedSearch.toLowerCase())
