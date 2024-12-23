@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Row, Col, Card, Rate, Button } from 'antd';
+import { Row, Col, Card, Rate, Button,Menu } from 'antd';
 import NewCollection from './NewCollection';
-import TopSellingSection from './TopSellingSectio';
+import TopSellingSection from './TopSellingSection';
 import CollectionComponent from './CollectionComponent';
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState('All');
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -19,7 +20,7 @@ const Categories = () => {
           images: category.images || [],
           price: category.price || 0,
           rating: category.rating || 0,
-          category: typeof category.category === 'string' ? category.category : 'Unknown', // مدیریت مقدار رشته
+          category: typeof category.category === 'string' ? category.category : 'Unknown', 
         }));
         setCategories(validCategories);
       } catch (error) {
@@ -35,23 +36,46 @@ const Categories = () => {
   if (loading) {
     return <div>Loading categories...</div>;
   }
+  const handleMenuClick = (e) => {
+    setActiveCategory(e.key);
+  };
+
+  const filteredCategories =
+    activeCategory === 'All'
+      ? categories
+      : categories.filter((cat) => cat.category === activeCategory);
 
   return (
     <div>
+       <Menu
+        mode="horizontal"
+        onClick={handleMenuClick}
+        selectedKeys={[activeCategory]}
+        style={{
+          justifyContent: 'flex-end',
+          marginBottom: '20px'
+        }}
+      >
+        <Menu.Item key="All">All</Menu.Item>
+        <Menu.Item key="Laptops">Laptops</Menu.Item>
+        <Menu.Item key="Smartphones">Smartphones</Menu.Item>
+        <Menu.Item key="Cameras">Cameras</Menu.Item>
+        <Menu.Item key="Accessories">Accessories</Menu.Item>
+      </Menu>
       <div>
         <CollectionComponent />
       </div>
       <div style={{ padding: '20px 300px' }}>
         <h2>New Products</h2>
         <Row gutter={[16, 16]}> {console.log(categories)}
-        {categories.map((category) => (
+        {filteredCategories.map((category) => (
   <Col key={category._id} xs={24} sm={12} md={8} lg={6}>
     <Card
       hoverable
       cover={
         <img
           alt={category.name}
-          src={category.images?.[0] || 'https://via.placeholder.com/200'} // استفاده از تصویر پیش‌فرض
+          src={category.images?.[0] || 'https://via.placeholder.com/200'}
           style={{ height: '200px', objectFit: 'cover' }}
         />
       }

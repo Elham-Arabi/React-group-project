@@ -47,7 +47,8 @@ const SearchHeader = ({ setSearch, search }) => {
   const notices = useSelector((state) => state.searchResults);
 
   return (
-    <div style={{ position: "relative", width: "100%" }}>
+    <div>
+      <div style={{ position: "relative", width: "100%" }}>
       <Input
         placeholder="Search here"
         style={{
@@ -61,6 +62,8 @@ const SearchHeader = ({ setSearch, search }) => {
         suffix={<SearchOutlined />}
         allowClear
       />
+    </div>
+    <div >
       {loading ? (
         <Spin size="small" style={{ marginTop: "8px" }} />
       ) : (
@@ -95,6 +98,7 @@ const SearchHeader = ({ setSearch, search }) => {
           />
         )
       )}
+    </div>
     </div>
   );
 };

@@ -2,10 +2,10 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 90%;
     height: 100%;
-    background: rgba(211, 24, 55, 0.9); /* Red overlay */
-    clip-path: polygon(0 0, 80% 0, 100% 0, 50% 100%, 0 100%);
+    background: rgba(211, 24, 55, 0.9); 
+    clip-path: polygon(0% 0, 20% 0, 100% 0, 40% 100%, 0 100%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,13 +13,16 @@
   }
   
   .text-container {
-    text-align: center;
+    text-align: left;
     color: white;
+    max-width: 150px; 
+    white-space: normal;
+    word-break: break-word;
     z-index: 2;
   }
   
   .ant-card-cover img {
-    object-fit: cover;
+    object-fit: contain;
     height: 250px; 
   }
   
@@ -28,4 +31,7 @@
     border-radius: 8px;
     overflow: hidden;
   }
-  
+  .text-container .ant-typography-title {
+    text-align: center;
+    white-space: normal; 
+  }
