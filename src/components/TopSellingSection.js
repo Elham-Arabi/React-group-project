@@ -19,7 +19,7 @@ const TopSellingSection = ({ products }) => {
               cover={
                 <img
                   alt={product.name}
-                  src={product.image}
+                  src={product.images?.[0] || 'https://via.placeholder.com/200'}
                   style={{ height: '200px', objectFit: 'contain' }}
                 />
               }
@@ -32,7 +32,7 @@ const TopSellingSection = ({ products }) => {
               <Title level={4} style={{ color: '#d31837' }}>
                 ${product.price?.toFixed(2) || '0.00'}
               </Title>
-              <Rate disabled allowHalf defaultValue={product.rating || 0} />
+              <Rate style={{ color: '#d31837' }} disabled allowHalf defaultValue={product.rating || 0} />
               {product.isNew && (
                 <div
                   style={{

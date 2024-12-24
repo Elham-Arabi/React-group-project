@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'
 import axios from 'axios';
 import { Row, Col, Card, Rate, Button,Menu } from 'antd';
 import NewCollection from './NewCollection';
@@ -70,6 +71,7 @@ const Categories = () => {
         <Row gutter={[16, 16]}> {console.log(categories)}
         {filteredCategories.map((category) => (
   <Col key={category._id} xs={24} sm={12} md={8} lg={6}>
+     <Link to={`/ProductDetails/${category._id}`}>
     <Card
       hoverable
       cover={
@@ -106,6 +108,7 @@ const Categories = () => {
         Add to Cart
       </Button>
     </div>
+    </Link>
   </Col>
 ))}
         </Row>
