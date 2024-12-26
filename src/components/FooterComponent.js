@@ -1,21 +1,39 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Layout, Row, Col, Menu } from 'antd';
+import React from "react";
+
+import { Layout, Row, Col, Menu } from "antd";
 
 const { Footer } = Layout;
+const categories = [
+  "Hot Deals",
+  "Laptops",
+  "Smartphones",
+  "Cameras",
+  "Accessories",
+];
+const information = [
+  "About Us",
+  "Contact Us",
+  "Privacy Policy",
+  "Orders and Returns",
+  "Terms & Conditions",
+];
+const service = [
+  "My Account",
+  "View Cart",
+  "Wishlist",
+  "Track My Order",
+  "Help",
+];
 
 const FooterComponent = () => {
-  // Access footer data from the Redux store
-  const footerData = useSelector((state) => state);
-
-  if (!footerData) {
-    return null; 
-  }
-
-  const { categories, information, service } = footerData;
-
   return (
-    <Footer style={{ backgroundColor: '#15151d', color: '#fff', padding: '50px 300px' }}>
+    <Footer
+      style={{
+        backgroundColor: "#15151d",
+        color: "#fff",
+        padding: "50px 300px",
+      }}
+    >
       <Row justify="space-between">
         <Col span={6}>
           <h3>About Us</h3>
@@ -23,7 +41,7 @@ const FooterComponent = () => {
           <p>Address: 1234 Stonecool Rd</p>
           <p>Email: email@example.com</p>
         </Col>
-        <Col span={6} >
+        <Col span={6}>
           <h3>Categories</h3>
           <Menu mode="vertical" theme="dark">
             {categories &&

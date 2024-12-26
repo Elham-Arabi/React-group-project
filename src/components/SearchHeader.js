@@ -2,14 +2,11 @@ import React, { useEffect, useState } from "react";
 import useDebounce from "./UseDebounce";
 import { Input, Spin, List } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { useDispatch, useSelector } from "react-redux";
-import { setSearchResults, setLoading } from "../redux/action";
 import axios from "axios";
 
 const SearchHeader = ({ setSearch, search }) => {
-  const dispatch = useDispatch();
-
-  const loading = useSelector((state) => state.loading);
+  const [loading, setLoading] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
   const [isList, setIsList] = useState(true);
 
   const debouncedSearch = useDebounce(search, 500);
@@ -17,28 +14,25 @@ const SearchHeader = ({ setSearch, search }) => {
   useEffect(() => {
     const fetchData = async () => {
       if (debouncedSearch) {
-        dispatch(setLoading(true));
+        setLoading(true);
         try {
           const response = await axios.get(
             `https://kaaryar-ecom.liara.run/v1/products?page=1&limit=10`
           );
-          dispatch(setSearchResults(response.data.products));
+          setSearchResults(response.data.products);
         } catch (error) {
           console.error("Error fetching data:", error);
         } finally {
-          dispatch(setLoading(false));
+          setLoading(false);
         }
       } else {
-        dispatch(setSearchResults([]));
+        setSearchResults([]);
       }
     };
 
     fetchData();
-  }, [debouncedSearch, dispatch]);
+  }, [debouncedSearch]);
 
-  const subHandler = () => {
-    console.log("salam");
-  };
   const itemSelect = (name) => {
     setSearch(name);
     setIsList(false);
@@ -47,7 +41,6 @@ const SearchHeader = ({ setSearch, search }) => {
     setSearch(value);
     if (!isList) setIsList(true);
   };
-  const notices = useSelector((state) => state.searchResults);
 
   return (
     <div style={{ position: "relative", width: "100%" }}>
@@ -68,7 +61,7 @@ const SearchHeader = ({ setSearch, search }) => {
         <Spin size="small" style={{ marginTop: "8px" }} />
       ) : (
         debouncedSearch &&
-        notices.length > 0 &&
+        searchResults.length > 0 &&
         isList && (
           <List
             bordered
@@ -82,7 +75,7 @@ const SearchHeader = ({ setSearch, search }) => {
               borderRadius: "4px",
               boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
             }}
-            dataSource={notices.filter((item) =>
+            dataSource={searchResults.filter((item) =>
               item.name.toLowerCase().includes(debouncedSearch.toLowerCase())
             )}
             renderItem={(item) => (

@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Menu, Button, Row, Col, Space, Dropdown } from "antd";
+import { Layout, Menu, Button, Row, Col, Space } from "antd";
 import { HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { setSelectedCategory } from "../redux/action";
 import "antd/dist/reset.css";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import EmailIcon from "@mui/icons-material/Email";
@@ -16,8 +14,8 @@ const { Header } = Layout;
 
 const HeaderComponent = () => {
   const [categories, setCategories] = useState([]);
-  const selectedCategory = useSelector((state) => state.selectedCategory);
-  const dispatch = useDispatch();
+  const [isShow, setIsShow] = useState(false);
+  const [category, setCategory] = useState("Clothing");
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -35,26 +33,10 @@ const HeaderComponent = () => {
   }, []);
 
   const handleCategorySelect = (category) => {
-    dispatch(setSelectedCategory(category));
+    setIsShow(false);
+    setCategory(category);
     setSearch("");
   };
-
-  const categoriesMenu = (
-    <Menu>
-      {categories.length > 0 ? (
-        categories.map((category) => (
-          <Menu.Item
-            key={category._id}
-            onClick={() => handleCategorySelect(category.name)}
-          >
-            {category.name}
-          </Menu.Item>
-        ))
-      ) : (
-        <Menu.Item key="no-category">No Categories Available</Menu.Item>
-      )}
-    </Menu>
-  );
 
   return (
     <Layout>
@@ -117,7 +99,7 @@ const HeaderComponent = () => {
           <Col flex="auto" style={{ marginLeft: "100px" }}>
             <Row align="middle">
               <Col>
-                <Dropdown overlay={categoriesMenu} trigger={["click"]}>
+                <div>
                   <Button
                     style={{
                       borderRadius: "20px 0 0 20px",
@@ -126,10 +108,34 @@ const HeaderComponent = () => {
                       color: "#d31837",
                       width: "150px",
                     }}
+                    onClick={() => setIsShow(!isShow)}
                   >
-                    {selectedCategory}
+                    {category}
                   </Button>
-                </Dropdown>
+                  {isShow && (
+                    <Menu
+                      style={{
+                        position: "absolute",
+                        zIndex: "100",
+                      }}
+                    >
+                      {categories.length > 0 ? (
+                        categories.map((category) => (
+                          <Menu.Item
+                            key={category._id}
+                            onClick={() => handleCategorySelect(category.name)}
+                          >
+                            {category.name}
+                          </Menu.Item>
+                        ))
+                      ) : (
+                        <Menu.Item key="no-category">
+                          No Categories Available
+                        </Menu.Item>
+                      )}
+                    </Menu>
+                  )}
+                </div>
               </Col>
               <Col>
                 <SearchHeader search={search} setSearch={setSearch} />
