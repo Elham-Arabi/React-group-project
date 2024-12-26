@@ -89,7 +89,7 @@ const SearchHeader = ({ setSearch, search }) => {
             />
           )}
         </div>
-        <Link to={`/ProductDetails/${id}`}>
+        <Link to={`/Product/${id}`}>
           <Button
             type="primary"
             style={{
