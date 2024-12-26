@@ -1,0 +1,37 @@
+.red-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 90%;
+    height: 100%;
+    background: rgba(211, 24, 55, 0.9); 
+    clip-path: polygon(0% 0, 20% 0, 100% 0, 40% 100%, 0 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+  }
+  
+  .text-container {
+    text-align: left;
+    color: white;
+    max-width: 150px; 
+    white-space: normal;
+    word-break: break-word;
+    z-index: 2;
+  }
+  
+  .ant-card-cover img {
+    object-fit: contain;
+    height: 250px; 
+  }
+  
+  .ant-card {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .text-container .ant-typography-title {
+    text-align: center;
+    white-space: normal; 
+  }

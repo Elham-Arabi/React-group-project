@@ -1,0 +1,28 @@
+.social-icons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #d3d3d3; 
+    border-radius: 5px; 
+    color: #000; 
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  
+  .social-icons a:hover {
+    border-color: #d31837; 
+    color: #d31837; 
+  }
+  
+  .social-icons a svg {
+    font-size: 20px; 
+  }

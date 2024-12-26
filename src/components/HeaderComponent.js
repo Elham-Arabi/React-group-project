@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Menu, Button, Row, Col, Space } from "antd";
+import { Layout, Menu, Button, Row, Col, Space, Flex } from "antd";
 import { HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import axios from "axios";
 import "antd/dist/reset.css";
@@ -9,6 +9,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import LockIcon from "@mui/icons-material/Lock";
 import SearchHeader from "./SearchHeader";
+import "../css/HeaderComponent.css";
 
 const { Header } = Layout;
 
@@ -97,7 +98,7 @@ const HeaderComponent = () => {
             </h1>
           </Col>
           <Col flex="auto" style={{ marginLeft: "100px" }}>
-            <Row align="middle">
+            <Flex align="middle">
               <Col>
                 <div>
                   <Button
@@ -140,19 +141,7 @@ const HeaderComponent = () => {
               <Col>
                 <SearchHeader search={search} setSearch={setSearch} />
               </Col>
-              <Col>
-                <Button
-                  type="primary"
-                  style={{
-                    backgroundColor: "#d31837",
-                    borderRadius: "0 20px 20px 0",
-                    border: "none",
-                  }}
-                >
-                  Search
-                </Button>
-              </Col>
-            </Row>
+            </Flex>
           </Col>
           <Col>
             <Space size="large">
@@ -167,7 +156,11 @@ const HeaderComponent = () => {
         </Row>
       </Header>
       <div style={{ padding: "10px 300px 10px", backgroundColor: "#ffffff" }}>
-        <Menu mode="horizontal" defaultSelectedKeys={["home"]}>
+        <Menu
+          mode="horizontal"
+          defaultSelectedKeys={["home"]}
+          className="custom-menu"
+        >
           <Menu.Item key="home">Home</Menu.Item>
           <Menu.Item key="hotdeals">Hot Deals</Menu.Item>
           <Menu.Item key="categories">Categories</Menu.Item>

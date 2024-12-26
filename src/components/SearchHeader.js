@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import useDebounce from "./UseDebounce";
-import { Input, Spin, List } from "antd";
+import { Input, List, Button, Flex } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const SearchHeader = ({ setSearch, search }) => {
-  const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [isList, setIsList] = useState(true);
+  const [id, setId] = useState("");
 
   const debouncedSearch = useDebounce(search, 500);
 
   useEffect(() => {
     const fetchData = async () => {
       if (debouncedSearch) {
-        setLoading(true);
         try {
           const response = await axios.get(
             `https://kaaryar-ecom.liara.run/v1/products?page=1&limit=10`
@@ -22,8 +22,6 @@ const SearchHeader = ({ setSearch, search }) => {
           setSearchResults(response.data.products);
         } catch (error) {
           console.error("Error fetching data:", error);
-        } finally {
-          setLoading(false);
         }
       } else {
         setSearchResults([]);
@@ -33,8 +31,9 @@ const SearchHeader = ({ setSearch, search }) => {
     fetchData();
   }, [debouncedSearch]);
 
-  const itemSelect = (name) => {
-    setSearch(name);
+  const itemSelect = (item) => {
+    setId(item._id);
+    setSearch(item.name);
     setIsList(false);
   };
   const changeInput = (value) => {
@@ -43,54 +42,67 @@ const SearchHeader = ({ setSearch, search }) => {
   };
 
   return (
-    <div style={{ position: "relative", width: "100%" }}>
-      <Input
-        placeholder="Search here"
-        style={{
-          borderLeft: "none",
-          borderRight: "none",
-          borderRadius: "0",
-          marginBottom: "10px",
-        }}
-        value={search}
-        onChange={(e) => changeInput(e.target.value)}
-        suffix={<SearchOutlined />}
-        allowClear
-      />
-      {loading ? (
-        <Spin size="small" style={{ marginTop: "8px" }} />
-      ) : (
-        debouncedSearch &&
-        searchResults.length > 0 &&
-        isList && (
-          <List
-            bordered
-            size="small"
+    <>
+      <Flex>
+        <div style={{ position: "relative", width: "100%" }}>
+          <Input
+            placeholder="Search here"
             style={{
-              position: "absolute",
-              zIndex: 1000,
-              background: "#fff",
-              width: "100%",
-              marginTop: "4px",
-              borderRadius: "4px",
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+              borderLeft: "none",
+              borderRight: "none",
+              borderRadius: "0",
+              marginBottom: "10px",
             }}
-            dataSource={searchResults.filter((item) =>
-              item.name.toLowerCase().includes(debouncedSearch.toLowerCase())
-            )}
-            renderItem={(item) => (
-              <List.Item
-                key={item.id}
-                onClick={() => itemSelect(item.name)}
-                style={{ padding: "8px", cursor: "pointer" }}
-              >
-                {item.name}
-              </List.Item>
-            )}
+            value={search}
+            onChange={(e) => changeInput(e.target.value)}
+            suffix={<SearchOutlined />}
+            allowClear
           />
-        )
-      )}
-    </div>
+        </div>
+        <div>
+          {debouncedSearch && searchResults.length > 0 && isList && (
+            <List
+              bordered
+              size="small"
+              style={{
+                position: "absolute",
+                zIndex: 1000,
+                background: "#fff",
+                width: "100%",
+                marginTop: "4px",
+                borderRadius: "4px",
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // سایه برای زیبایی
+                overflowY: "auto",
+              }}
+              dataSource={searchResults.filter((item) =>
+                item.name.toLowerCase().includes(debouncedSearch.toLowerCase())
+              )}
+              renderItem={(item) => (
+                <List.Item
+                  key={item.id}
+                  onClick={() => itemSelect(item)}
+                  style={{ padding: "8px", cursor: "pointer" }}
+                >
+                  {item.name}
+                </List.Item>
+              )}
+            />
+          )}
+        </div>
+        <Link to={`/ProductDetails/${id}`}>
+          <Button
+            type="primary"
+            style={{
+              backgroundColor: "#d31837",
+              borderRadius: "0 20px 20px 0",
+              border: "none",
+            }}
+          >
+            Search
+          </Button>
+        </Link>
+      </Flex>
+    </>
   );
 };
 
