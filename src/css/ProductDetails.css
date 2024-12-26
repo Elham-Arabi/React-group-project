@@ -1,0 +1,58 @@
+.product-list-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* .filter-row {
+    margin-bottom: 20px;
+    justify-content: space-between;
+    align-items: center;
+  } */
+  
+  .filter-option {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: '#d31837';
+  }
+  
+  .product-grid {
+    margin-top: 20px;
+  }
+  
+  .ant-card {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+  }
+  
+  .ant-card-cover img {
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .ant-card-meta-title {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .ant-card-meta-description {
+    text-align: center;
+    color: #555;
+  }
+  
+  .slider-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+  }
+  
+  .slider-container span {
+    margin-right: 10px;
+    width: 40px;
+   
+  }
+  
