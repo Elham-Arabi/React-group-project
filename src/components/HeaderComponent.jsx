@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Menu, Button, Row, Col, Space, Flex } from "antd";
+import { Layout, Menu, Button, Row, Col, Space, Dropdown } from "antd";
 import { HeartOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import axios from "axios";
 import "antd/dist/reset.css";
@@ -15,7 +15,6 @@ const { Header } = Layout;
 
 const HeaderComponent = () => {
   const [categories, setCategories] = useState([]);
-  const [isShow, setIsShow] = useState(false);
   const [category, setCategory] = useState("Clothing");
   const [search, setSearch] = useState("");
 
@@ -34,10 +33,26 @@ const HeaderComponent = () => {
   }, []);
 
   const handleCategorySelect = (category) => {
-    setIsShow(false);
     setCategory(category);
     setSearch("");
   };
+
+  const menu = (
+    <Menu>
+      {categories.length > 0 ? (
+        categories.map((category) => (
+          <Menu.Item
+            key={category._id}
+            onClick={() => handleCategorySelect(category.name)}
+          >
+            {category.name}
+          </Menu.Item>
+        ))
+      ) : (
+        <Menu.Item key="no-category">No Categories Available</Menu.Item>
+      )}
+    </Menu>
+  );
 
   return (
     <Layout>
@@ -48,11 +63,11 @@ const HeaderComponent = () => {
           padding: "10px 300px 10px",
         }}
       >
-        <Row justify="space-between">
+        <Row justify="space-between" align="middle">
           <Col>
-            <Space size="large">
-              <span>
-                <LocalPhoneIcon style={{ color: "#d31837" }} />{" "}
+            <Space size="large" style={{ display: "flex", alignItems: "center" }}>
+              <span style={{ display: "flex", alignItems: "center" }}>
+                <LocalPhoneIcon style={{ color: "#d31837", marginRight: "5px" }} />
                 <a
                   href="tel:+09375291734"
                   style={{ color: "#fff", textDecoration: "none" }}
@@ -60,8 +75,8 @@ const HeaderComponent = () => {
                   09375241374
                 </a>
               </span>
-              <span>
-                <EmailIcon style={{ color: "#d31837" }} />{" "}
+              <span style={{ display: "flex", alignItems: "center" }}>
+                <EmailIcon style={{ color: "#d31837", marginRight: "5px" }} />
                 <a
                   href="mailto:earabi@gmail.com"
                   style={{ color: "#fff", textDecoration: "none" }}
@@ -69,79 +84,58 @@ const HeaderComponent = () => {
                   earabi@gmail.com
                 </a>
               </span>
-              <span>
-                <PlaceIcon style={{ color: "#d31837" }} /> karyar
+              <span style={{ display: "flex", alignItems: "center" }}>
+                <PlaceIcon style={{ color: "#d31837", marginRight: "5px" }} />
+                karyar
               </span>
             </Space>
           </Col>
           <Col>
-            <Space size="large">
-              <span>
-                <AttachMoneyIcon style={{ color: "#d31837" }} /> USD
+            <Space size="large" style={{ display: "flex", alignItems: "center" }}>
+              <span style={{ display: "flex", alignItems: "center" }}>
+                <AttachMoneyIcon style={{ color: "#d31837", marginRight: "5px" }} />
+                USD
               </span>
               <a
                 href="#account"
-                style={{ color: "#fff", textDecoration: "none" }}
+                style={{
+                  color: "#fff",
+                  textDecoration: "none",
+                  display: "flex",
+                  alignItems: "center",
+                }}
               >
-                <LockIcon style={{ color: "#d31837" }} />
+                <LockIcon style={{ color: "#d31837", marginRight: "5px" }} />
                 My Account
               </a>
             </Space>
           </Col>
         </Row>
       </div>
-      <Header style={{ backgroundColor: "#000", padding: "10px 300px" }}>
+      <Header style={{ backgroundColor: "#000", padding: "0 300px" }}>
         <Row justify="space-between" align="middle">
           <Col>
             <h1 style={{ color: "#fff", marginBottom: "10px" }}>
-              Electro<span style={{ color: "#d31837" }}>.</span>
+              Electro<span style={{ color: "#d31837"}}>.</span>
             </h1>
           </Col>
           <Col flex="auto" style={{ marginLeft: "100px" }}>
-            <Flex align="middle">
-              <Col>
-                <div>
-                  <Button
-                    style={{
-                      borderRadius: "20px 0 0 20px",
-                      border: "1px solid #d31837",
-                      backgroundColor: "#fff",
-                      color: "#d31837",
-                      width: "150px",
-                    }}
-                    onClick={() => setIsShow(!isShow)}
-                  >
-                    {category}
-                  </Button>
-                  {isShow && (
-                    <Menu
-                      style={{
-                        position: "absolute",
-                        zIndex: "100",
-                      }}
-                    >
-                      {categories.length > 0 ? (
-                        categories.map((category) => (
-                          <Menu.Item
-                            key={category._id}
-                            onClick={() => handleCategorySelect(category.name)}
-                          >
-                            {category.name}
-                          </Menu.Item>
-                        ))
-                      ) : (
-                        <Menu.Item key="no-category">
-                          No Categories Available
-                        </Menu.Item>
-                      )}
-                    </Menu>
-                  )}
-                </div>
-              </Col>
-              <Col>
-                <SearchHeader search={search} setSearch={setSearch} />
-              </Col>
-            </Flex>
+            <Space align="middle" style={{  columnGap: '0px' }}>
+              <Dropdown overlay={menu} trigger={['click']} placement="bottomLeft">
+                <Button
+                  style={{
+                    borderRadius: "20px 0 0 20px",
+                    border: "1px solid #d31837",
+                    backgroundColor: "#fff",
+                    color: "#d31837",
+                    width: "150px",
+                  }}
+                >
+                  {category}
+                </Button>
+              </Dropdown>
+              <SearchHeader search={search} setSearch={setSearch} />
+            </Space>
           </Col>
           <Col>
             <Space size="large">
@@ -161,7 +155,7 @@ const HeaderComponent = () => {
           defaultSelectedKeys={["home"]}
           className="custom-menu"
         >
-          <Menu.Item key="home">Home</Menu.Item>
+          <Menu.Item key="home"><a href="/">Home</a></Menu.Item>
           <Menu.Item key="hotdeals">Hot Deals</Menu.Item>
           <Menu.Item key="categories">Categories</Menu.Item>
           <Menu.Item key="laptops">Laptops</Menu.Item>

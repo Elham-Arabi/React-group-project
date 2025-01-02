@@ -11,9 +11,12 @@
   .custom-menu .ant-menu-item:hover {
     transition: border 0.3s ease;
     color: #d31837 !important; 
+    
   }
-  
+    
   .custom-menu .ant-menu-item-selected::after {
+    border-bottom: #d31837 solid 2px !important; 
+  }
+  .custom-menu .ant-menu-item:hover ::after{
     border-bottom: 2px solid #d31837; 
-    color: #d31837 !important;
   }

@@ -1,243 +1,221 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Select, Slider } from 'antd';
+import { Row, Col, Card, Select, Slider, Rate, Button, Checkbox } from 'antd';
 import axios from 'axios';
-import '../css/ProductDetails.css'; 
+import '../css/ProductDetails.css';
 
 const { Option } = Select;
-<<<<<<< HEAD
 
-const ProductList = () => {
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+const ProductDetails = () => {
+  const [products, setProducts] = useState([]); 
+  const [categories, setCategories] = useState([]); 
+  const [filteredProducts, setFilteredProducts] = useState([]); 
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(1000);
   const [sortOrder, setSortOrder] = useState('asc'); 
+  const [selectedCategories, setSelectedCategories] = useState([]); 
 
+ 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get('https://kaaryar-ecom.liara.run/v1/products');
-        const data = Array.isArray(response.data) ? response.data : response.data.products;
+        // Fetch products
+        const productResponse = await axios.get('https://kaaryar-ecom.liara.run/v1/products');
+        const productData = Array.isArray(productResponse.data)
+          ? productResponse.data
+          : productResponse.data.products;
 
-        const prices = data.map((product) => product.price || 0);
+        console.log('Products:', productData);
+
+        const updatedProducts = productData.map((product) => ({
+          ...product,
+          category: product.category || 'uncategorized', 
+        }));
+
+        setProducts(updatedProducts);
+        setFilteredProducts(updatedProducts);
+
+        // max and min price
+        const prices = updatedProducts.map((product) => product.price || 0);
         const min = Math.min(...prices);
         const max = Math.max(...prices);
-
-        setProducts(data);
-        setFilteredProducts(data);
         setMinPrice(min);
         setMaxPrice(max);
         setPriceRange([min, max]);
+
+        // Fetch category
+        const categoryResponse = await axios.get('https://kaaryar-ecom.liara.run/v1/categories');
+        const categoryData = Array.isArray(categoryResponse.data)
+          ? categoryResponse.data
+          : categoryResponse.data.categories;
+
+        console.log('Categories:', categoryData);
+        setCategories(categoryData);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error('Error fetching data:', error);
       }
     };
-    fetchProducts();
+
+    fetchData();
   }, []);
+
+  // change category
+  const handleCategoryChange = (categoryId) => {
+    const updatedCategories = selectedCategories.includes(categoryId)
+      ? selectedCategories.filter((id) => id !== categoryId)
+      : [...selectedCategories, categoryId];
+
+    setSelectedCategories(updatedCategories);
+
+   
+    filterAndSortProducts(priceRange, updatedCategories, sortOrder);
+  };
+
+  
   const handlePriceRangeChange = (value) => {
     setPriceRange(value);
-    const filtered = products.filter(
-      (product) => product.price >= value[0] && product.price <= value[1]
-    );
-    const sorted = filtered.sort((a, b) =>
-      sortOrder === 'asc' ? a.price - b.price : b.price - a.price
-    );
-    setFilteredProducts(sorted);
+
+   
+    filterAndSortProducts(value, selectedCategories, sortOrder);
   };
 
+  
   const handleSortChange = (value) => {
     setSortOrder(value);
-    const sorted = [...filteredProducts].sort((a, b) =>
-      value === 'asc' ? a.price - b.price : b.price - a.price
-    );
-    setFilteredProducts(sorted);
+
+   
+    filterAndSortProducts(priceRange, selectedCategories, value);
   };
 
-  useEffect(() => {
-    const sorted = [...products].filter((product) =>
-   product.price >= priceRange[0] && product.price <= priceRange[1])
-    .sort((a,b) => sortOrder === 'asc' ? a.price -b.price : b.price - a.pr);
+  // filter and sort products
+  const filterAndSortProducts = (range, categories, order) => {
+    const filtered = products.filter(
+      (product) =>
+        (categories.length === 0 || categories.includes(product.category._id)) && 
+        product.price >= range[0] &&
+        product.price <= range[1]
+    );
+
+    const sorted = filtered.sort((a, b) =>
+      order === 'asc' ? a.price - b.price : b.price - a.price
+    );
+
     setFilteredProducts(sorted);
-  }, [sortOrder, priceRange, products]);
+  };
 
   return (
     <div className="product-list-container">
-      <Row gutter={[16, 16]} className="filter-row">
-        <Col span={12}>
-          <div className="filter-option">
-            <span>Sort by Price:</span>
-            <Select
-              defaultValue="asc"
-              style={{ width: 200 }}
-              onChange={handleSortChange}
-            >
-              <Option value="asc">Lowest to Highest</Option>
-              <Option value="desc">Highest to Lowest</Option>
-            </Select>
-          </div>
-        </Col>
-        <Col span={12}>
-          <div className="filter-option">
-            <span>Filter by Price Range:</span>
-            <Slider
-              range
-              min={minPrice}
-              max={maxPrice}
-              value={priceRange}
-              onChange={handlePriceRangeChange}
-              tooltip={{ formatter: (value) => `$${value}` }}
-            />
-          </div>
-        </Col>
-      </Row>
-      <Row gutter={[16, 16]} className="product-grid">
-        {filteredProducts.map((product) => (
-          <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
-            <Card
-              hoverable
-              cover={
-                <img
-                  alt={product.name}
-                  src={product.images?.[0] || 'https://via.placeholder.com/150'}
-                  style={{ height: '200px', objectFit: 'cover' }}
-                />
-              }
-            >
-              <Card.Meta
-                title={product.name}
-                description={`Price: $${product.price?.toFixed(2) || 'N/A'}`}
-              />
-            </Card>
-          </Col>
-        ))}
-      </Row>
-=======
-const ProdutDetails = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [sortBy, setSortBy] = useState("popular");
-
-  const fetchProducts = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        `https://kaaryar-ecom.liara.run/v1/products?page=${page}&limit=${limit}`
-      );
-      setProducts(response.data.data);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, [page, limit]);
-
-  return (
-    <div style={{ padding: "20px" }}>
-      {/* Sorting and Pagination Controls */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "20px",
-        }}
-      >
-        <div>
-          <span style={{ marginRight: "10px" }}>Sort By:</span>
-          <Select
-            value={sortBy}
-            onChange={setSortBy}
-            style={{ width: "150px" }}
-          >
-            <Option value="popular">Popular</Option>
-            <Option value="priceAsc">Price: Low to High</Option>
-            <Option value="priceDesc">Price: High to Low</Option>
-          </Select>
-        </div>
-        <div>
-          <span style={{ marginRight: "10px" }}>Show:</span>
-          <Select
-            value={limit}
-            onChange={(value) => setLimit(value)}
-            style={{ width: "100px" }}
-          >
-            <Option value={10}>10</Option>
-            <Option value={20}>20</Option>
-            <Option value={30}>30</Option>
-          </Select>
-        </div>
-      </div>
-
-      {/* Product Grid */}
-      {loading ? (
-        <div style={{ textAlign: "center", marginTop: "50px" }}>
-          <Spin size="large" />
-        </div>
-      ) : (
+      <div style={{ marginRight: '20px' }}>
         <Row gutter={[16, 16]}>
-          {products.map((product) => (
-            <Col xs={24} sm={12} md={8} lg={6} key={product._id}>
-              <Card
-                hoverable
-                cover={
-                  <img
-                    alt={product.title}
-                    src={product.image || "https://via.placeholder.com/150"}
+          <Col xs={24} sm={12} md={5} lg={5}>
+            <Row gutter={[16, 16]} className="filter-row">
+              <Col span={24}>
+                <div>
+                  <h2>CATEGORIES</h2>
+                  {categories.length > 0 ? (
+                    categories.map((category) => (
+                      <div key={category._id} style={{ marginBottom: '10px' }}>
+                        <Checkbox
+                          checked={selectedCategories.includes(category._id)}
+                          onChange={() => handleCategoryChange(category._id)}
+                        >
+                          {category.name} (
+                          {
+                            products.filter((product) => product.category._id === category._id).length
+                          }
+                          )
+                        </Checkbox>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No categories available</p>
+                  )}
+                </div>
+                <div className="filter-option">
+                  <span>Sort by Price:</span>
+                  <Select
+                    defaultValue="asc"
+                    style={{ width: 200 }}
+                    onChange={handleSortChange}
+                  >
+                    <Option value="asc">Lowest to Highest</Option>
+                    <Option value="desc">Highest to Lowest</Option>
+                  </Select>
+                </div>
+              </Col>
+              <Col span={24}>
+                <div className="filter-option">
+                  <span>Filter by Price Range:</span>
+                  <Slider
+                    range
+                    min={minPrice}
+                    max={maxPrice}
+                    value={priceRange}
+                    onChange={handlePriceRangeChange}
+                    tooltip={{ formatter: (value) => `$${value}` }}
                   />
-                }
-                actions={[
-                  <span>Add to Cart</span>,
-                  <span>❤</span>,
-                  <span>🔍</span>,
-                ]}
-              >
-                <Meta
-                  title={product.title}
-                  description={
-                    <>
-                      <div>
-                        <b>${product.price}</b> <del>${product.oldPrice}</del>
-                      </div>
-                      <div style={{ color: "gold" }}>
-                        {"★".repeat(Math.round(product.rating))}
-                        {"☆".repeat(5 - Math.round(product.rating))}
-                      </div>
-                    </>
-                  }
-                />
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      )}
+                </div>
+              </Col>
+            </Row>
+          </Col>
 
-      {/* Pagination */}
-      <div style={{ textAlign: "center", marginTop: "20px" }}>
-        <Select
-          value={page}
-          onChange={(value) => setPage(value)}
-          style={{ width: "150px" }}
-        >
-          {[...Array(5)].map((_, index) => (
-            <Option key={index + 1} value={index + 1}>
-              Page {index + 1}
-            </Option>
-          ))}
-        </Select>
+          <Col xs={24} sm={24} md={19} lg={19}>
+            <Row gutter={[20, 20]} className="product-grid">
+              {filteredProducts.map((product) => (
+                <Col key={product._id} xs={24} sm={12} md={8} lg={8}>
+                  <Card
+                    hoverable
+                    cover={
+                      <img
+                        alt={product.name}
+                        src={product.images?.[0] || 'https://via.placeholder.com/150'}
+                        style={{ height: '200px', objectFit: 'cover' }}
+                      />
+                    }
+                  >
+                    <Card.Meta title={product.name || 'No Name'} />
+                    <div
+                      style={{
+                        marginTop: '10px',
+                        fontWeight: 'bold',
+                        color: '#d31837',
+                      }}
+                    >
+                      ${Math.ceil(product.price) || '0'}
+                    </div>
+                    <div>
+                      <Rate
+                        style={{ color: '#d31837' }}
+                        defaultValue={product.rating || 0}
+                        disabled
+                      />
+                    </div>
+                  </Card>
+                  <div
+                    className="add-to-cart-btn-container"
+                    style={{ backgroundColor: '#000' }}
+                  >
+                    <Button
+                      type="primary"
+                      block
+                      style={{
+                        marginTop: '10px',
+                        backgroundColor: '#d31837',
+                        width: '150px',
+                        borderRadius: '50px',
+                      }}
+                    >
+                      Add to Cart
+                    </Button>
+                  </div>
+                </Col>
+              ))}
+            </Row>
+          </Col>
+        </Row>
       </div>
->>>>>>> ee1ba43713cdd4f5c057b7210e51c19daa282ca8
     </div>
   );
 };
 
-<<<<<<< HEAD
-export default ProductList;
-=======
-export default ProdutDetails;
->>>>>>> ee1ba43713cdd4f5c057b7210e51c19daa282ca8
+export default ProductDetails;

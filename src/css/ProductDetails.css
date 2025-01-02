@@ -4,13 +4,6 @@
     margin: 0 auto;
     font-family: Arial, sans-serif;
   }
-  
-  /* .filter-row {
-    margin-bottom: 20px;
-    justify-content: space-between;
-    align-items: center;
-  } */
-  
   .filter-option {
     display: flex;
     flex-direction: column;
@@ -47,7 +40,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
+    gap: 10px;
   }
   
   .slider-container span {
@@ -55,4 +48,36 @@
     width: 40px;
    
   }
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #d31837 !important;
+  border-color: #d31837 !important;
+}
+
+
+.ant-checkbox-checked:hover .ant-checkbox-inner {
+  border-color: #d31837 !important;
+}
+
+.ant-slider-track {
+  background-color: #d31837 !important;
+}
+
+.ant-slider-handle {
+  border-color: #d31837 !important;
+}
+
+.ant-slider-handle:hover {
+  border-color: #d31837 !important;
+}
+
+.ant-slider-dot-active {
+  border-color: #d31837 !important;
+}
+.add-to-cart-btn-container {
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  background-color: transparent;
+}
   

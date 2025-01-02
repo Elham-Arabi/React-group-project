@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import useDebounce from "./UseDebounce";
 import { Input, List, Button, Flex } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
@@ -9,8 +9,25 @@ const SearchHeader = ({ setSearch, search }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [isList, setIsList] = useState(true);
   const [id, setId] = useState("");
+  const listRef = useRef(null); 
 
   const debouncedSearch = useDebounce(search, 500);
+
+ 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (listRef.current && !listRef.current.contains(e.target)) {
+        setIsList(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+   
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,16 +79,19 @@ const SearchHeader = ({ setSearch, search }) => {
         <div>
           {debouncedSearch && searchResults.length > 0 && isList && (
             <List
+              ref={listRef} 
               bordered
               size="small"
               style={{
                 position: "absolute",
+                top: '45px',
+                left: '-6px',
                 zIndex: 1000,
                 background: "#fff",
                 width: "100%",
                 marginTop: "4px",
                 borderRadius: "4px",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // سایه برای زیبایی
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", 
                 overflowY: "auto",
               }}
               dataSource={searchResults.filter((item) =>
