@@ -6,7 +6,7 @@ import CustomSlider from './CustomSlider';
 import NewCollection from './NewCollection';
 import TopSellingSection from './TopSellingSection';
 import CollectionComponent from './CollectionComponent';
-
+import '../css/Categories.css'; 
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -80,17 +80,12 @@ const Categories = () => {
   };
 
   return (
-    <div >
+    <div>
       <Menu
         mode="horizontal"
         onClick={handleMenuClick}
         selectedKeys={[activeCategory]}
-        style={{
-          justifyContent: 'flex-end',
-          paddingRight: '240px',
-          marginBottom: '20px',
-        }}
-         className="custom-menu"
+        className="custom-menu"
       >
         <Menu.Item key="All">All</Menu.Item>
         <Menu.Item key="Laptops">Laptops</Menu.Item>
@@ -102,53 +97,38 @@ const Categories = () => {
       <div>
         <CollectionComponent />
       </div>
-
-      <div style={{ padding: '20px 300px' }}>
-        <h2>New Products</h2>
+      <div className="categories-container">
+        <h2 className="new-products-title">New Products</h2>
         <CustomSlider settings={sliderSettings}>
           {filteredCategories.map((category) => (
-            <div key={category._id} style={{ padding: '10px' }}>
-              <Link to={`/ProductDetails/${category._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div key={category._id} className="category-card">
+              <Link to={`/ProductFeatureCard/${category._id}`}>
                 <Card
                   hoverable
                   cover={
                     <img
                       alt={category.name}
                       src={category.images?.[0] || 'https://via.placeholder.com/200'}
-                      style={{ height: '200px', objectFit: 'cover' }}
                     />
                   }
                 >
                   <Card.Meta title={category.name || 'No Name'} />
-                  <div style={{ marginTop: '10px', fontWeight: 'bold', color: '#d31837' }}>
+                  <div className="category-card-meta">
                     ${Math.ceil(category.price) || '0'}
                   </div>
-                  <div>
-                    <Rate
-                      style={{ color: '#d31837' }}
-                      defaultValue={category.rating || 0}
-                      disabled
-                    />
-                  </div>
+                  <Rate className="category-card-rate" defaultValue={category.rating || 0} disabled />
                 </Card>
               </Link>
-              <div
-                className="add-to-cart-btn-container"
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  marginTop: '10px',
-                }}
-              >
+              <div className="add-to-cart-btn-container">
                 <Button
-                  type="primary"
-                  style={{
-                    backgroundColor: '#d31837',
-                    borderColor: '#d31837',
-                    borderRadius: '50px',
-                    width: '150px',
+                  className="add-to-cart-btn"
+                  onClick={() => {
+                    if (category?._id) {
+                      navigate(`/ProductFeatureCard/${category._id}`);
+                    } else {
+                      console.error('Category ID is not available.');
+                    }
                   }}
-                  onClick={() => navigate(`/ProductFeatureCard/${category._id}`)} 
                 >
                   Add to Cart
                 </Button>

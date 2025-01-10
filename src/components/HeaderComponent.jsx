@@ -10,6 +10,9 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import LockIcon from "@mui/icons-material/Lock";
 import SearchHeader from "./SearchHeader";
 import "../css/HeaderComponent.css";
+import AuthComponent from './AuthComponent';
+import "../css/SearchHeader.css"
+
 
 const { Header } = Layout;
 
@@ -56,18 +59,12 @@ const HeaderComponent = () => {
 
   return (
     <Layout>
-      <div
-        style={{
-          backgroundColor: "#000",
-          color: "#fff",
-          padding: "10px 300px 10px",
-        }}
-      >
+      <div className="header-top" >
         <Row justify="space-between" align="middle">
           <Col>
-            <Space size="large" style={{ display: "flex", alignItems: "center" }}>
-              <span style={{ display: "flex", alignItems: "center" }}>
-                <LocalPhoneIcon style={{ color: "#d31837", marginRight: "5px" }} />
+            <Space size="large" className="header-link ">
+              <span >
+                <LocalPhoneIcon className="header-link-icon"  />
                 <a
                   href="tel:+09375291734"
                   style={{ color: "#fff", textDecoration: "none" }}
@@ -75,8 +72,8 @@ const HeaderComponent = () => {
                   09375241374
                 </a>
               </span>
-              <span style={{ display: "flex", alignItems: "center" }}>
-                <EmailIcon style={{ color: "#d31837", marginRight: "5px" }} />
+              <span >
+                <EmailIcon  className="header-link-icon" />
                 <a
                   href="mailto:earabi@gmail.com"
                   style={{ color: "#fff", textDecoration: "none" }}
@@ -84,16 +81,16 @@ const HeaderComponent = () => {
                   earabi@gmail.com
                 </a>
               </span>
-              <span style={{ display: "flex", alignItems: "center" }}>
-                <PlaceIcon style={{ color: "#d31837", marginRight: "5px" }} />
+              <span >
+                <PlaceIcon className="header-link-icon" />
                 karyar
               </span>
             </Space>
           </Col>
           <Col>
-            <Space size="large" style={{ display: "flex", alignItems: "center" }}>
-              <span style={{ display: "flex", alignItems: "center" }}>
-                <AttachMoneyIcon style={{ color: "#d31837", marginRight: "5px" }} />
+            <Space >
+              <span>
+                <AttachMoneyIcon className="header-link-icon" />
                 USD
               </span>
               <a
@@ -105,21 +102,21 @@ const HeaderComponent = () => {
                   alignItems: "center",
                 }}
               >
-                <LockIcon style={{ color: "#d31837", marginRight: "5px" }} />
+                <LockIcon className="header-link-icon" />
                 My Account
               </a>
             </Space>
           </Col>
         </Row>
       </div>
-      <Header style={{ backgroundColor: "#000", padding: "0 300px" }}>
+      <Header className="header-main">
         <Row justify="space-between" align="middle">
           <Col>
             <h1 style={{ color: "#fff", marginBottom: "10px" }}>
               Electro<span style={{ color: "#d31837"}}>.</span>
             </h1>
           </Col>
-          <Col flex="auto" style={{ marginLeft: "100px" }}>
+          <Col flex="auto"  className="responsive-col">
             <Space align="middle" style={{  columnGap: '0px' }}>
               <Dropdown overlay={menu} trigger={['click']} placement="bottomLeft">
                 <Button
@@ -164,6 +161,9 @@ const HeaderComponent = () => {
           <Menu.Item key="accessories">Accessories</Menu.Item>
         </Menu>
       </div>
+      <div style={{display: "flex", justifyContent: "flex-end", padding: "10px 300px",}}>
+              <AuthComponent />
+            </div>
     </Layout>
   );
 };

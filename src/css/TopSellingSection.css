@@ -1,28 +1,141 @@
+
+.top-selling-section {
+  padding: 30px 300px;
+}
+
+.section-title,
+.top-selling-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+.product-card-container {
+  padding: 10px;
+}
+
+.product-card,
+.top-selling-card {
+  text-align: center;
+  height: 500px;
+}
+
+.product-image,
+.top-selling-card img {
+  height: 200px;
+  object-fit: contain;
+}
+
+.product-title,
+.top-selling-name {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.product-price,
+.top-selling-price {
+  color: #d31837;
+}
+
+.product-rating,
+.top-selling-rate {
+  color: #d31837;
+}
+
+
+.add-to-cart-btn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.add-to-cart-btn {
+  background-color: #d31837;
+  border-color: #d31837;
+  border-radius: 50px;
+  width: 150px;
+  transition: background-color 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #a9122a;
+}
+
+
+.newsletter-section {
+  text-align: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  background-image: url('/public/images/Lovepik.png');
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+
+.newsletter-title {
+  margin-bottom: 10px;
+}
+
+.newsletter-input {
+  padding: 7px;
+  width: 50%;
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-right: none;
+}
+
+.subscribe-btn,
+.newsletter-subscribe-btn {
+  background-color: #d31837;
+  padding: 18px;
+  border-radius: 0 20px 20px 0;
+  border: 1px solid #d31837;
+  transition: background-color 0.3s ease;
+}
+
+.subscribe-btn:hover,
+.newsletter-subscribe-btn:hover {
+  background-color: #a9122a;
+}
+
+
 .social-icons {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.social-icons a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #d3d3d3;
+  border-radius: 5px;
+  color: #000;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.social-icons a:hover {
+  border-color: #d31837;
+  color: #d31837;
+}
+
+.social-icons a svg {
+  font-size: 20px;
+}
+
+
+@media (max-width: 1024px) {
+  .top-selling-section {
+    padding: 30px 50px;
   }
-  
-  .social-icons a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    border: 1px solid #d3d3d3; 
-    border-radius: 5px; 
-    color: #000; 
-    transition: all 0.3s ease;
-    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .top-selling-section {
+    padding: 30px 20px;
   }
-  
-  .social-icons a:hover {
-    border-color: #d31837; 
-    color: #d31837; 
-  }
-  
-  .social-icons a svg {
-    font-size: 20px; 
-  }
+}

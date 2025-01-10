@@ -1,0 +1,133 @@
+
+.footer {
+    background-color: #15151d;
+    color: #fff;
+    padding: 50px 300px;
+     font-size: 14px;
+  }
+  
+  .footer h3 {
+    color: #d31837;
+  }
+  
+  .footer p {
+    color: #fff;
+  }
+  
+  .footer .contact-info {
+    color: #fff;
+  }
+  
+  .footer .contact-info .MuiSvgIcon-root {
+    color: #d31837;
+    margin-right: 2px;
+    font-family: 10px;
+    font-size: 20px;
+  }
+
+  .footer .menu {
+    background-color: transparent;
+    border: none;
+  }
+  
+  .footer .menu .ant-menu-item {
+    color: #fff;
+  }
+  
+  .footer .footer-bottom {
+    margin-top: 20px;
+    border-top: 1px solid #444;
+    padding-top: 10px;
+  }
+  
+  .footer .footer-bottom .footer-text {
+    color: #fff;
+    font-size: 12px;
+  }
+  
+
+  @media (max-width: 1200px) {
+    .footer {
+      padding: 50px 50px;
+      font-size: 10px;
+    }
+  
+    .footer .contact-info {
+      font-size: 14px;
+    }
+  
+    .footer .menu {
+      font-size: 14px;
+    }
+  
+    .footer .footer-bottom .footer-text {
+      font-size: 10px;
+    }
+  
+    .footer h3 {
+      font-size: 18px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .footer {
+      padding: 30px 20px;
+    }
+  
+    .footer .contact-info {
+      font-size: 10px;
+    }
+  
+    .footer .menu {
+      font-size: 10px;
+    }
+  
+    .footer .footer-bottom .footer-text {
+      font-size: 10px;
+      overflow: hidden;          
+    text-overflow: ellipsis;  
+    white-space: nowrap;      
+    max-width: 150px;
+    }
+  
+    .footer h3 {
+      font-size: 16px;
+    }
+  
+    .footer .menu .ant-menu-item {
+      padding-left: 8px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .footer {
+      padding: 20px 10px;
+    }
+  
+    .footer h3 {
+      font-size: 14px;
+    }
+  
+    .footer .contact-info {
+      font-size: 12px;
+    }
+  
+    .footer .menu {
+      font-size: 12px;
+    }
+  
+    .footer .footer-bottom .footer-text {
+      font-size: 8px;
+    }
+  
+    .footer .menu {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .footer .contact-info {
+      text-align: center;
+      font-size: 12px;
+    }
+  }
+  
