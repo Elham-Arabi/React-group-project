@@ -1,20 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { HeartOutlined, SwapOutlined, FacebookOutlined, TwitterOutlined, InstagramOutlined, LinkedinOutlined } from "@ant-design/icons";
-import { Card, Rate, Row, Col, Button, Input, Select, Tabs, Progress, Carousel } from "antd";
-import "../css/ProductFeatureCard.css"
+import {
+  HeartOutlined,
+  SwapOutlined,
+  FacebookOutlined,
+  TwitterOutlined,
+  InstagramOutlined,
+  LinkedinOutlined,
+} from "@ant-design/icons";
+import {
+  Card,
+  Rate,
+  Row,
+  Col,
+  Button,
+  Input,
+  Select,
+  Tabs,
+  Progress,
+  Carousel,
+  Flex,
+} from "antd";
+import "../css/ProductFeatureCard.css";
 
 const { TabPane } = Tabs;
 const { Option } = Select;
 
 const ProductFeatureCard = () => {
   const { id } = useParams();
-  console.log("Product ID:", id);
 
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [Qt, setQt] = useState(1);
 
   // Fetching the selected product
   useEffect(() => {
@@ -24,7 +43,7 @@ const ProductFeatureCard = () => {
           `https://kaaryar-ecom.liara.run/v1/products/${id}`
         );
         setSelectedProduct(response.data || null);
-        setSelectedImage(response.data?.images?.[0] || null); 
+        setSelectedImage(response.data?.images?.[0] || null);
       } catch (error) {
         console.error("Error fetching selected product:", error);
       } finally {
@@ -35,13 +54,21 @@ const ProductFeatureCard = () => {
     fetchSelectedProduct();
   }, [id]);
 
+  const buyHandler = async () => {
+    try {
+      const response = await axios.post(
+        "https://kaaryar-ecom.liara.run/v1/cart/add",
+        { id, Qt }
+      );
+    } catch (error) {}
+  };
+
   if (loading) {
     return <p style={{ textAlign: "center" }}>Loading product details...</p>;
   }
-
   return (
     <div className="product-feature-container">
-      <Row gutter={16}>
+      <Flex>
         {/* Slider Section */}
         <Col xs={24} md={8}>
           <Card>
@@ -59,10 +86,11 @@ const ProductFeatureCard = () => {
                   style={{
                     padding: "5px",
                     cursor: "pointer",
-                    border: selectedImage === image ? "2px solid #d31837" : "none",
+                    border:
+                      selectedImage === image ? "2px solid #d31837" : "none",
                     marginBottom: "10px",
                   }}
-                  onClick={() => setSelectedImage(image)} 
+                  onClick={() => setSelectedImage(image)}
                 >
                   <img
                     src={image || "https://via.placeholder.com/80"}
@@ -73,6 +101,7 @@ const ProductFeatureCard = () => {
                       marginBottom: "10px",
                       display: "block",
                       marginLeft: "auto",
+                      cursor: "pointer",
                       marginRight: "auto",
                     }}
                   />
@@ -82,22 +111,21 @@ const ProductFeatureCard = () => {
           </Card>
         </Col>
 
+        <Col xs={24} md={12}>
+          <div>
+            <img
+              src={selectedImage || "https://via.placeholder.com/300"}
+              alt={selectedProduct?.name || "Product"}
+              style={{ width: "300px", marginBottom: "10px" }}
+            />
+          </div>
+        </Col>
         {/* Product Details Section */}
-        <Col xs={24} md={16}>
+        <Flex>
           <Card>
             {selectedProduct ? (
               <Row gutter={16}>
-                <Col xs={24} md={12}>
-                  <div>
-                    <img
-                      src={selectedImage || "https://via.placeholder.com/300"}
-                      alt={selectedProduct?.name || "Product"}
-                      style={{ width: "300px", marginBottom: "10px" }}
-                    />
-                  </div>
-                </Col>
-
-                <Col xs={24} md={12}>
+                <Col xs={24} md={12} style={{ width: "350px" }}>
                   <h2 style={{ fontWeight: "bold" }}>
                     {selectedProduct?.name || "PRODUCT NAME GOES HERE"}
                   </h2>
@@ -107,15 +135,23 @@ const ProductFeatureCard = () => {
                     value={selectedProduct?.rating || 0}
                     disabled
                   />
-                  <p>{(selectedProduct?.rating || 0).toFixed(3)} ({selectedProduct?.ratingCount || 0} reviews)</p>
+                  <p>
+                    {(selectedProduct?.rating || 0).toFixed(3)} (
+                    {selectedProduct?.ratingCount || 0} reviews)
+                  </p>
                   <h3 style={{ color: "#d31837" }}>
                     ${Math.ceil(selectedProduct?.price) || "0"}
                   </h3>
                   <p style={{ textDecoration: "line-through", color: "gray" }}>
                     $990.00
                   </p>
-                  <p style={{ color: "#d31837", fontWeight: "bold" }}>IN STOCK</p>
-                  <p>{selectedProduct?.description || "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}</p>
+                  <p style={{ color: "#d31837", fontWeight: "bold" }}>
+                    IN STOCK
+                  </p>
+                  <p>
+                    {selectedProduct?.description ||
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+                  </p>
                   <Row gutter={16} style={{ marginBottom: "10px" }}>
                     <Col span={12}>
                       <label>Size:</label>
@@ -145,12 +181,21 @@ const ProductFeatureCard = () => {
                   <Row gutter={16} style={{ marginBottom: "10px" }}>
                     <Col span={12}>
                       <label>Qty:</label>
-                      <Input type="number" defaultValue={1} min={1} />
+                      <Input
+                        type="number"
+                        defaultValue={1}
+                        min={1}
+                        onChange={(e) => setQt(e.target.value)}
+                      />
                     </Col>
                   </Row>
                   <Button
                     type="primary"
-                    style={{ backgroundColor: "#d31837", borderColor: "#d31837" }}
+                    style={{
+                      backgroundColor: "#d31837",
+                      borderColor: "#d31837",
+                    }}
+                    onClick={() => buyHandler()}
                   >
                     ADD TO CART
                   </Button>
@@ -170,16 +215,32 @@ const ProductFeatureCard = () => {
                     </Button>
                   </div>
                   <div className="social-icons" style={{ marginTop: "10px" }}>
-                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+                    <a
+                      href="https://www.facebook.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <FacebookOutlined />
                     </a>
-                    <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
+                    <a
+                      href="https://www.twitter.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <TwitterOutlined />
                     </a>
-                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                    <a
+                      href="https://www.instagram.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <InstagramOutlined />
                     </a>
-                    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+                    <a
+                      href="https://www.linkedin.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <LinkedinOutlined />
                     </a>
                   </div>
@@ -189,8 +250,8 @@ const ProductFeatureCard = () => {
               <p>Loading product details...</p>
             )}
           </Card>
-        </Col>
-      </Row>
+        </Flex>
+      </Flex>
 
       <Row style={{ marginTop: "20px" }} gutter={16} justify="center">
         <Col span={24}>
@@ -199,7 +260,10 @@ const ProductFeatureCard = () => {
               <Row gutter={16}>
                 <Col span={6}>
                   <h3>Product Overview</h3>
-                  <p>{selectedProduct?.longDescription || "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}</p>
+                  <p>
+                    {selectedProduct?.longDescription ||
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+                  </p>
                 </Col>
                 <Col span={6}>
                   <h3>Product Features</h3>
@@ -243,36 +307,85 @@ const ProductFeatureCard = () => {
               <Row gutter={16}>
                 <Col span={6}>
                   <h3>{(selectedProduct?.rating || 0).toFixed(4)}</h3>
-                  <Rate style={{ color: "#d31837" }} allowHalf defaultValue={selectedProduct?.rating || 0} disabled />
-                  <Progress percent={90} showInfo={false} strokeColor="#d31837" />
-                  <Progress percent={75} showInfo={false} strokeColor="#d31837" />
-                  <Progress percent={50} showInfo={false} strokeColor="#d31837" />
+                  <Rate
+                    style={{ color: "#d31837" }}
+                    allowHalf
+                    defaultValue={selectedProduct?.rating || 0}
+                    disabled
+                  />
+                  <Progress
+                    percent={90}
+                    showInfo={false}
+                    strokeColor="#d31837"
+                  />
+                  <Progress
+                    percent={75}
+                    showInfo={false}
+                    strokeColor="#d31837"
+                  />
+                  <Progress
+                    percent={50}
+                    showInfo={false}
+                    strokeColor="#d31837"
+                  />
                 </Col>
                 <Col span={6}>
                   <h4>John</h4>
                   <p>{(selectedProduct?.rating).toFixed(4)}</p>
-                  <Rate defaultValue={5} disabled style={{ color: "#d31837" }} />
+                  <Rate
+                    defaultValue={5}
+                    disabled
+                    style={{ color: "#d31837" }}
+                  />
                   <h4>John</h4>
                   <p>{(selectedProduct?.rating).toFixed(4)}</p>
-                  <Rate defaultValue={5} disabled style={{ color: "#d31837" }} />
+                  <Rate
+                    defaultValue={5}
+                    disabled
+                    style={{ color: "#d31837" }}
+                  />
                   <h4>John</h4>
                   <p>{(selectedProduct?.rating).toFixed(4)}</p>
-                  <Rate defaultValue={5} disabled style={{ color: "#d31837" }} />
+                  <Rate
+                    defaultValue={5}
+                    disabled
+                    style={{ color: "#d31837" }}
+                  />
                 </Col>
                 <Col span={6}>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  </p>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  </p>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  </p>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  </p>
                 </Col>
                 <Col span={6}>
                   <h4>Submit Your Review</h4>
-                  <Input placeholder="Your Name" style={{ marginBottom: "10px" }} />
-                  <Input placeholder="Your Email" style={{ marginBottom: "10px" }} />
-                  <Input.TextArea rows={4} placeholder="Your Review" style={{ marginBottom: "10px" }} />
+                  <Input
+                    placeholder="Your Name"
+                    style={{ marginBottom: "10px" }}
+                  />
+                  <Input
+                    placeholder="Your Email"
+                    style={{ marginBottom: "10px" }}
+                  />
+                  <Input.TextArea
+                    rows={4}
+                    placeholder="Your Review"
+                    style={{ marginBottom: "10px" }}
+                  />
                   <Rate />
-                  <Button type="primary" style={{ marginTop: "10px", backgroundColor: "#d31837" }}>
+                  <Button
+                    type="primary"
+                    style={{ marginTop: "10px", backgroundColor: "#d31837" }}
+                  >
                     Submit
                   </Button>
                 </Col>

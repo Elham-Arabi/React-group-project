@@ -1,34 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { Card, Rate, Button, Menu } from 'antd';
-import CustomSlider from './CustomSlider';
-import NewCollection from './NewCollection';
-import TopSellingSection from './TopSellingSection';
-import CollectionComponent from './CollectionComponent';
-import '../css/Categories.css'; 
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Card, Rate, Button, Menu } from "antd";
+import CustomSlider from "./CustomSlider";
+import NewCollection from "./NewCollection";
+import TopSellingSection from "./TopSellingSection";
+import CollectionComponent from "./CollectionComponent";
+import "../css/Categories.css";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState('All');
+  const [activeCategory, setActiveCategory] = useState("All");
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('https://kaaryar-ecom.liara.run/v1/products?page=1&limit=10');
+        const response = await axios.get(
+          "https://kaaryar-ecom.liara.run/v1/products?page=1&limit=10"
+        );
         const validCategories = response.data.products.map((category) => ({
           _id: category._id,
-          name: category.name || 'No Name',
+          name: category.name || "No Name",
           images: category.images || [],
           price: category.price || 0,
           rating: category.rating || 0,
-          category: typeof category.category === 'string' ? category.category : 'Unknown',
+          category:
+            typeof category.category === "string"
+              ? category.category
+              : "Unknown",
         }));
         setCategories(validCategories);
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        console.error("Error fetching categories:", error);
       } finally {
         setLoading(false);
       }
@@ -46,7 +51,7 @@ const Categories = () => {
   };
 
   const filteredCategories =
-    activeCategory === 'All'
+    activeCategory === "All"
       ? categories
       : categories.filter((cat) => cat.category === activeCategory);
 
@@ -108,15 +113,22 @@ const Categories = () => {
                   cover={
                     <img
                       alt={category.name}
-                      src={category.images?.[0] || 'https://via.placeholder.com/200'}
+                      src={
+                        category.images?.[0] ||
+                        "https://via.placeholder.com/200"
+                      }
                     />
                   }
                 >
-                  <Card.Meta title={category.name || 'No Name'} />
+                  <Card.Meta title={category.name || "No Name"} />
                   <div className="category-card-meta">
-                    ${Math.ceil(category.price) || '0'}
+                    ${Math.ceil(category.price) || "0"}
                   </div>
-                  <Rate className="category-card-rate" defaultValue={category.rating || 0} disabled />
+                  <Rate
+                    className="category-card-rate"
+                    defaultValue={category.rating || 0}
+                    disabled
+                  />
                 </Card>
               </Link>
               <div className="add-to-cart-btn-container">
@@ -126,7 +138,7 @@ const Categories = () => {
                     if (category?._id) {
                       navigate(`/ProductFeatureCard/${category._id}`);
                     } else {
-                      console.error('Category ID is not available.');
+                      console.error("Category ID is not available.");
                     }
                   }}
                 >

@@ -5,15 +5,14 @@ import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const SearchHeader = ({ setSearch, search }) => {
+const SearchHeader = ({ setSearch, search, category }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [isList, setIsList] = useState(true);
   const [id, setId] = useState("");
-  const listRef = useRef(null); 
+  const listRef = useRef(null);
 
   const debouncedSearch = useDebounce(search, 500);
 
- 
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (listRef.current && !listRef.current.contains(e.target)) {
@@ -23,7 +22,6 @@ const SearchHeader = ({ setSearch, search }) => {
 
     document.addEventListener("mousedown", handleClickOutside);
 
-   
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -34,9 +32,11 @@ const SearchHeader = ({ setSearch, search }) => {
       if (debouncedSearch) {
         try {
           const response = await axios.get(
-            `https://kaaryar-ecom.liara.run/v1/products?page=1&limit=10`
+            `https://kaaryar-ecom.liara.run/v1/products`
           );
-          setSearchResults(response.data.products);
+          setSearchResults(
+            response.data.products.filter((pr) => pr.category.name == category)
+          );
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -79,19 +79,19 @@ const SearchHeader = ({ setSearch, search }) => {
         <div>
           {debouncedSearch && searchResults.length > 0 && isList && (
             <List
-              ref={listRef} 
+              ref={listRef}
               bordered
               size="small"
               style={{
                 position: "absolute",
-                top: '45px',
-                left: '-6px',
+                top: "45px",
+                left: "-6px",
                 zIndex: 1000,
                 background: "#fff",
                 width: "100%",
                 marginTop: "4px",
                 borderRadius: "4px",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", 
+                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                 overflowY: "auto",
               }}
               dataSource={searchResults.filter((item) =>
@@ -109,7 +109,7 @@ const SearchHeader = ({ setSearch, search }) => {
             />
           )}
         </div>
-        <Link to={`/Product/${id}`}>
+        <Link to={`/ProductFeatureCard/${id}`}>
           <Button
             type="primary"
             style={{

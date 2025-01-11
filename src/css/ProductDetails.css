@@ -1,59 +1,57 @@
 .product-list-container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: Arial, sans-serif;
-  }
-  .filter-option {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    color: '#d31837';
-  }
-  
-  .product-grid {
-    margin-top: 20px;
-  }
-  
-  .ant-card {
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid #f0f0f0;
-  }
-  
-  .ant-card-cover img {
-    border-bottom: 1px solid #f0f0f0;
-  }
-  
-  .ant-card-meta-title {
-    font-size: 14px;
-    font-weight: bold;
-    text-align: center;
-  }
-  
-  .ant-card-meta-description {
-    text-align: center;
-    color: #555;
-  }
-  
-  .slider-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  
-  .slider-container span {
-    margin-right: 10px;
-    width: 40px;
-   
-  }
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+.filter-option {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: "#d31837";
+}
+
+.product-grid {
+  margin-top: 20px;
+}
+
+.ant-card {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+}
+
+.ant-card-cover img {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ant-card-meta-title {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.ant-card-meta-description {
+  text-align: center;
+  color: #555;
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.slider-container span {
+  margin-right: 10px;
+  width: 40px;
+}
 
 .ant-checkbox-checked .ant-checkbox-inner {
   background-color: #d31837 !important;
   border-color: #d31837 !important;
 }
-
 
 .ant-checkbox-checked:hover .ant-checkbox-inner {
   border-color: #d31837 !important;
@@ -75,16 +73,16 @@
   border-color: #d31837 !important;
 }
 .add-to-cart-btn-container {
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: transparent;
 }
 @media (max-width: 1200px) {
   .product-list-container {
     padding: 15px;
   }
-  
+
   .filter-option {
     gap: 6px;
   }
@@ -149,7 +147,9 @@
   .ant-card-meta-title {
     font-size: 11px;
   }
-
+  /* .productFilter:hover .add-to-cart-btn-container {
+    display: inline-block;
+    } */
   .add-to-cart-btn-container button {
     font-size: 12px;
     padding: 8px 16px;

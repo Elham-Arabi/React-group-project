@@ -10,9 +10,9 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import LockIcon from "@mui/icons-material/Lock";
 import SearchHeader from "./SearchHeader";
 import "../css/HeaderComponent.css";
-import AuthComponent from './AuthComponent';
-import "../css/SearchHeader.css"
-
+import AuthComponent from "./AuthComponent";
+import "../css/SearchHeader.css";
+import { Link } from "react-router-dom";
 
 const { Header } = Layout;
 
@@ -59,12 +59,12 @@ const HeaderComponent = () => {
 
   return (
     <Layout>
-      <div className="header-top" >
+      <div className="header-top">
         <Row justify="space-between" align="middle">
           <Col>
             <Space size="large" className="header-link ">
-              <span >
-                <LocalPhoneIcon className="header-link-icon"  />
+              <span>
+                <LocalPhoneIcon className="header-link-icon" />
                 <a
                   href="tel:+09375291734"
                   style={{ color: "#fff", textDecoration: "none" }}
@@ -72,8 +72,8 @@ const HeaderComponent = () => {
                   09375241374
                 </a>
               </span>
-              <span >
-                <EmailIcon  className="header-link-icon" />
+              <span>
+                <EmailIcon className="header-link-icon" />
                 <a
                   href="mailto:earabi@gmail.com"
                   style={{ color: "#fff", textDecoration: "none" }}
@@ -81,14 +81,14 @@ const HeaderComponent = () => {
                   earabi@gmail.com
                 </a>
               </span>
-              <span >
+              <span>
                 <PlaceIcon className="header-link-icon" />
                 karyar
               </span>
             </Space>
           </Col>
           <Col>
-            <Space >
+            <Space>
               <span>
                 <AttachMoneyIcon className="header-link-icon" />
                 USD
@@ -110,15 +110,19 @@ const HeaderComponent = () => {
         </Row>
       </div>
       <Header className="header-main">
-        <Row justify="space-between" align="middle">
+        <Row style={{ display: "flex", flexWrap: "nowrap", gap: "5px" }}>
           <Col>
             <h1 style={{ color: "#fff", marginBottom: "10px" }}>
-              Electro<span style={{ color: "#d31837"}}>.</span>
+              Electro<span style={{ color: "#d31837" }}>.</span>
             </h1>
           </Col>
-          <Col flex="auto"  className="responsive-col">
-            <Space align="middle" style={{  columnGap: '0px' }}>
-              <Dropdown overlay={menu} trigger={['click']} placement="bottomLeft">
+          <Col flex="auto" className="responsive-col">
+            <Space align="middle" style={{ columnGap: "0px" }}>
+              <Dropdown
+                overlay={menu}
+                trigger={["click"]}
+                placement="bottomLeft"
+              >
                 <Button
                   style={{
                     borderRadius: "20px 0 0 20px",
@@ -131,7 +135,11 @@ const HeaderComponent = () => {
                   {category}
                 </Button>
               </Dropdown>
-              <SearchHeader search={search} setSearch={setSearch} />
+              <SearchHeader
+                search={search}
+                setSearch={setSearch}
+                category={category}
+              />
             </Space>
           </Col>
           <Col>
@@ -139,9 +147,10 @@ const HeaderComponent = () => {
               <a href="#wishlist" style={{ color: "#fff" }}>
                 <HeartOutlined style={{ fontSize: "20px" }} /> Your Wishlist
               </a>
-              <a href="#cart" style={{ color: "#fff" }}>
-                <ShoppingCartOutlined style={{ fontSize: "20px" }} /> Your Cart
-              </a>
+              <Link to={"/shop"} style={{ color: "#fff" }}>
+                <ShoppingCartOutlined style={{ fontSize: "20px" }} />
+                Your Cart
+              </Link>
             </Space>
           </Col>
         </Row>
@@ -152,7 +161,9 @@ const HeaderComponent = () => {
           defaultSelectedKeys={["home"]}
           className="custom-menu"
         >
-          <Menu.Item key="home"><a href="/">Home</a></Menu.Item>
+          <Menu.Item key="home">
+            <a href="/">Home</a>
+          </Menu.Item>
           <Menu.Item key="hotdeals">Hot Deals</Menu.Item>
           <Menu.Item key="categories">Categories</Menu.Item>
           <Menu.Item key="laptops">Laptops</Menu.Item>
@@ -161,9 +172,15 @@ const HeaderComponent = () => {
           <Menu.Item key="accessories">Accessories</Menu.Item>
         </Menu>
       </div>
-      <div style={{display: "flex", justifyContent: "flex-end", padding: "10px 300px",}}>
-              <AuthComponent />
-            </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          padding: "10px 300px",
+        }}
+      >
+        <AuthComponent />
+      </div>
     </Layout>
   );
 };

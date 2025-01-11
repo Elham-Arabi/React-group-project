@@ -1,26 +1,24 @@
 .custom-menu .ant-menu-item {
-    color: #000; 
-    font-weight: 500; 
-    transition: color 0.3s ease;
-  }
-  
-  .custom-menu .ant-menu-item-selected {
-    color: #d31837 !important; 
-  }
-  
-  .custom-menu .ant-menu-item:hover {
-    transition: border 0.3s ease;
-    color: #d31837 !important; 
-    
-  }
-    
-  .custom-menu .ant-menu-item-selected::after {
-    border-bottom: #d31837 solid 2px !important; 
-  }
-  .custom-menu .ant-menu-item:hover ::after{
-    border-bottom: 2px solid #d31837; 
-  }
+  color: #000;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
 
+.custom-menu .ant-menu-item-selected {
+  color: #d31837 !important;
+}
+
+.custom-menu .ant-menu-item:hover {
+  transition: border 0.3s ease;
+  color: #d31837 !important;
+}
+
+.custom-menu .ant-menu-item-selected::after {
+  border-bottom: #d31837 solid 2px !important;
+}
+.custom-menu .ant-menu-item:hover ::after {
+  border-bottom: 2px solid #d31837;
+}
 
 .header-top {
   background-color: #000;
@@ -58,14 +56,14 @@
 
 .header-main {
   background-color: #000;
-  padding: 0 300px;
+  padding: 0 200px;
 }
 
 .header-title {
   color: #fff;
   margin-bottom: 10px;
 }
-.responsive-col{
+.responsive-col {
   margin-left: 100px;
 }
 .header-title-highlight {
@@ -106,7 +104,10 @@
 }
 
 @media (max-width: 768px) {
-  .header-top, .header-main, .header-menu-container, .auth-component-container {
+  .header-top,
+  .header-main,
+  .header-menu-container,
+  .auth-component-container {
     padding: 10px;
   }
 

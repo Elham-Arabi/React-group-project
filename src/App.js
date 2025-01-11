@@ -4,8 +4,9 @@ import HeaderComponent from "./components/HeaderComponent";
 import FooterComponent from "./components/FooterComponent";
 import Categories from "./components/Categories";
 import ProductDetails from "./components/ProductDetails";
-import CollectionComponent from "./components/CollectionComponent";
+
 import ProductFeatureCard from "./components/ProductFeatureCard";
+import Shop from "./components/Shop";
 
 function App() {
   return (
@@ -13,10 +14,12 @@ function App() {
       <HeaderComponent />
       <Routes>
         <Route path="/" element={<Categories />} />
-        <Route path="/ProductFeatureCard/:id" element={<ProductFeatureCard />} />
-        <Route path="/" element={<CollectionComponent />} />
+        <Route
+          path="/ProductFeatureCard/:id"
+          element={<ProductFeatureCard />}
+        />
+        <Route path="/shop" element={<Shop />} />
         <Route path="/product-details/:id" element={<ProductDetails />} />
-        <Route path="/ProductFeatureCard/:id" element={<ProductFeatureCard />} />
       </Routes>
       <FooterComponent />
     </Router>
